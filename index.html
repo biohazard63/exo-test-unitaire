@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaire</title>
+</head>
+<body>
+<form id="registrationForm">
+  <label for="username">Nom d'utilisateur :</label>
+  <input type="text" id="username" name="username" required>
+  <br>
+
+  <label for="password">Mot de passe :</label>
+  <input type="password" id="password" name="password" required>
+  <br>
+
+  <label for="email">Email :</label>
+  <input type="email" id="email" name="email" required>
+  <br>
+
+  <button type="submit">S'inscrire</button>
+</form>
+
+<script>
+  function validateForm(username, password, email) {
+    const usernameValid = username.length >= 3;
+    const passwordValid = password.length >= 8;
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    return {
+      usernameValid,
+      passwordValid,
+      emailValid,
+      isValid: usernameValid && passwordValid && emailValid,
+    };
+  }
+
+  document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+
+    const validation = validateForm(username, password, email);
+
+    if (validation.isValid) {
+      alert('Formulaire valide !');
+      // Envoyer les données au serveur ou effectuer d'autres actions
+    } else {
+      let message = "Veuillez corriger les erreurs :\n";
+      if (!validation.usernameValid) message += " - Le nom d'utilisateur doit contenir au moins 3 caractères.\n";
+      if (!validation.passwordValid) message += " - Le mot de passe doit contenir au moins 8 caractères.\n";
+      if (!validation.emailValid) message += " - L'email doit avoir un format valide.\n";
+      alert(message);
+    }
+  });
+</script>
+</body>
+</html>
